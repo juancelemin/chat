@@ -18,4 +18,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         print (text_data)
-        pass
+        datapoint = json.loads(text_data)
+        val = datapoint["value"]
+
+        await self.channel_layer.group_send(
+            self.groupname,
+            {
+                'type':'deprocessing',
+                'value':val
+            }
+        )
+    
+    async def deprocessing(self,event):
+        valother = event["value"]
+        await self.send(text_data = json.dumps({"value":valother}))
