@@ -2,6 +2,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    datapoint =[]
+    users = []
     async def connect(self):
         print('hola')
         self.groupname = 'dashboard'
@@ -18,17 +20,20 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         print (text_data)
-        datapoint = json.loads(text_data)
-        val = datapoint["value"]
+        
+        self.datapoint.append(json.loads(text_data))
+        
+        (json.loads(text_data)["user"]) if  not (json.loads(text_data)["user"]) in self.users else ''
 
         await self.channel_layer.group_send(
             self.groupname,
             {
                 'type':'deprocessing',
-                'value':val
+                'value':self.datapoint,
+                'users':self.users,
             }
         )
     
     async def deprocessing(self,event):
-        valother = event["value"]
-        await self.send(text_data = json.dumps({"value":valother}))
+        valother = event
+        await self.send(text_data = json.dumps(valother))

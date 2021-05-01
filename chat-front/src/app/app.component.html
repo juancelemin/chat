@@ -1,16 +1,30 @@
-<body>
-    <div id="login">
-        <h3 class="text-center text-white pt-5">Login form</h3>
-        <div class="container">
-            <div id="login-row" class="row justify-content-center align-items-center">
-                <div id="login-column" class="col-md-3">
-                        hjhkjhkjhkjhkj
-                </div>
+<!-- app.component.html -->
 
-                <div id="login-column" class="col-md-8">
-                        hjgjhgjhghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhfjgfjgfjhfhjfjhfjh
-                </div>
-            </div>
-        </div>
+<main class="container">
+  <div class="row">
+    <div class="col-md-3">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let person of mg">
+               Hola! {{person.user }} Bienbenido Gonorrea!
+            </li>
+          </ul>
     </div>
-</body>
+    <div class="col-md-8">
+      <div class="alert alert-primary" *ngFor="let person of mg" role="alert">
+        {{person.user}} dice : {{person.value}}
+      </div>
+
+      <form id="login-form" class="form" action="" method="post" #authForm = "ngForm" (ngSubmit)="onSubmit(authForm)">
+        <div class="form-group">
+            <label  for="UserMsg">Example textarea</label>
+            <textarea class="form-control" ngModel name = "UserMsg" id="UserMsg" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Enviar" name="create" class="btn btn-info btn-md col-md-12" >
+        </div>
+    </form>
+
+
+    </div>
+  </div>
+</main>
