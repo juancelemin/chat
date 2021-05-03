@@ -22,9 +22,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         print (text_data)
         
         self.datapoint.append(json.loads(text_data))
-        
-        (json.loads(text_data)["user"]) if  not (json.loads(text_data)["user"]) in self.users else ''
-
+        if not json.loads(text_data)['user'] in self.users:
+            self.users.append(json.loads(text_data)['user'])
         await self.channel_layer.group_send(
             self.groupname,
             {

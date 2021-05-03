@@ -17,9 +17,6 @@ export class AppComponent {
     chatService.messages.subscribe(msg => {
       console.log(msg);
       this.users = msg.users;
-      this.users.filter(function(elem, index, self) {
-        return index === self.indexOf(elem);
-    })
       this.mg = msg.value;
       console.log("Response from websocket: " + msg);
     });
@@ -33,7 +30,7 @@ export class AppComponent {
   
     onSubmit(form: NgForm) {
       const usermsg = form.value.UserMsg;
-      console.log(usermsg);
+      this.message.users = this.users;
       this.message.value = usermsg;
       console.log("new message from client to websocket: ", this.message);
       this.chatService.messages.next(this.message);
