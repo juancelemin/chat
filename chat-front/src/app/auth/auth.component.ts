@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import {AuthService } from "./auth.service";
 import {HttpClient } from "@angular/common/http";
 import { FormsModule }   from '@angular/forms';
+import {LoginService} from '../user';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { FormsModule }   from '@angular/forms';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,public islog :LoginService) { }
 
   ngOnInit(): void {
  
@@ -48,7 +49,10 @@ export class AuthComponent implements OnInit {
 
     let val = this.authService.login(userEmail,userPassword).subscribe(
       resData => {
-        console.log(resData);
+        let p = resData;
+        console.log(p['data']);
+        this.islog.userName = resData['data']['userName'];
+        this.islog.isloggedin = true;
       },
       error =>{
         console.log(error);

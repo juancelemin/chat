@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { WebsocketService } from "../websocket.service";
-import { ChatService } from "./chat.service";
+import { ChatService } from "../chat.service";
 import { NgForm } from '@angular/forms';
-import {userloged} from '../globalV';
-
+import { LoginService } from '../user';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
   providers: [WebsocketService, ChatService]
+
 })
-export class ChatComponent implements OnInit {
+
+export class ChatComponent {
   mg ;
   users;
-  actiave = userloged.isloged;
-  constructor(public chatService: ChatService) {
+  constructor(public chatService: ChatService, public islog :LoginService) {
     chatService.messages.subscribe(msg => {
       console.log(msg);
       this.users = msg.users;
@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
     });
   }
     private message = {
-      user:"juan",
+      user:this.islog.userName,
       value: "tutorialedge",
       users:"",
       message: "this is a test message"
@@ -38,7 +38,4 @@ export class ChatComponent implements OnInit {
       this.chatService.messages.next(this.message);
       this.message.message = "";
     }
-  ngOnInit(): void {
-  }
-
 }
