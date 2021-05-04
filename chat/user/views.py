@@ -17,8 +17,8 @@ import csv
 class UserDetail(APIView):
     def get(self, request, format=None):
         res = {}
-        user = User.objects.get(email = request.data["email"])
-        if user.check_password(request.data["password"]):
+        user = User.objects.get(email = request.query_params["email"])
+        if user.check_password(request.query_params["password"]):
             print(user)
             serializer = UserSerializer(user, many=False)
             #jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
