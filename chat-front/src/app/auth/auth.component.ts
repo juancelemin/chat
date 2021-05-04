@@ -18,10 +18,11 @@ export class AuthComponent implements OnInit {
  
   }
   isLoginMode = true;
-
+  
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
   }
+  
 
   onSubmit(form: NgForm) {
     console.log(form.value);
@@ -39,4 +40,20 @@ export class AuthComponent implements OnInit {
     form.reset();
   }
 
+
+  login(form: NgForm) {
+    console.log(form.value);
+    const userEmail = form.value.email;
+    const userPassword = form.value.password;
+
+    let val = this.authService.login(userEmail,userPassword).subscribe(
+      resData => {
+        console.log(resData);
+      },
+      error =>{
+        console.log(error);
+      }
+    )
+    form.reset();
+  }
 }
